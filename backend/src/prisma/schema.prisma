@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+
+enum TipoAeronave {
+  COMERCIAL
+  MILITAR
+}
+
+enum TipoPeca {
+  NACIONAL
+  IMPORTADA
+}
+
+enum StatusPeca {
+  EM_PRODUCAO
+  EM_TRANSPORTE
+  PRONTA
+}
+
+enum StatusEtapa {
+  PENDENTE
+  ANDAMENTO
+  CONCLUIDA
+}
+
+enum TipoTeste {
+  ELETRICO
+  HIDRAULICO
+  AERODINAMICO
+}
+
+enum ResultadoTeste {
+  APROVADO
+  REPROVADO
+}
+
+enum NivelPermissao {
+  ADMINISTRADOR
+  ENGENHEIRO
+  OPERADOR
+}
+
+model Aeronave {
+  id          String   @id @default(uuid())
+  codigo      String   @unique
+  modelo      String
+  tipo        TipoAeronave
+  capacidade  Int      @default(0)
+  alcance     Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  pecas     Peca[]
+  etapas    Etapa[]
+  testes    Teste[]
+  relatorios Relatorio[]
+}
+
+model Peca {
+  id           String      @id @default(uuid())
+  nome         String
+  tipo         TipoPeca
+  fornecedor   String
+  status       StatusPeca  @default(EM_PRODUCAO)
+  aeronaveId   String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  
+  aeronave     Aeronave    @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+  etapas       Etapa[]
+}
+
+model Etapa {
+  id          String       @id @default(uuid())
+  nome        String
+  tipo        String
+  status      StatusEtapa  @default(PENDENTE)
+  aeronaveId  String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  
+  aeronave    Aeronave     @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+  pecas       Peca[]
+  funcionarios EtapaFuncionario[]
+}
+
+model Funcionario {
+  id              Int        @id @default(autoincrement())
+  nome            String
+  cpf             String     @unique
+  endereco        String
+  usuario         String     @unique
+  senha           String
+  nivelPermissao  NivelPermissao
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  
+  etapas          EtapaFuncionario[]
+  testesRealizados Teste[]
+}
+
+model EtapaFuncionario {
+  id             String   @id @default(uuid())
+  etapaId        String
+  funcionarioId  Int
+  createdAt      DateTime @default(now())
+  
+  etapa          Etapa    @relation(fields: [etapaId], references: [id], onDelete: Cascade)
+  funcionario    Funcionario @relation(fields: [funcionarioId], references: [id], onDelete: Cascade)
+  
+  @@unique([etapaId, funcionarioId])
+}
+
+model Teste {
+  id          String          @id @default(uuid())
+  tipo        TipoTeste
+  resultado   ResultadoTeste?
+  aeronaveId  String
+  funcionarioId Int
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  aeronave    Aeronave        @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+  funcionario Funcionario     @relation(fields: [funcionarioId], references: [id])
+}
+
+model Relatorio {
+  id          String   @id @default(uuid())
+  aeronaveId  String
+  conteudo    String   @db.Text
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  aeronave    Aeronave @relation(fields: [aeronaveId], references: [id], onDelete: Cascade)
+}
