@@ -35,7 +35,36 @@ AV3/
 
 ## 🚀 Instalação e Configuração
 
-### 1. Configurar o Banco de Dados MySQL
+### Opção 1: Iniciar Backend e Frontend Juntos (Recomendado)
+
+```powershell
+# Na pasta raiz do projeto (AV3/)
+
+# 1. Instalar dependências de ambos os projetos
+npm install
+npm run install:all
+
+# 2. Configurar variáveis de ambiente
+# Edite o arquivo backend/.env e configure suas credenciais do MySQL
+# DATABASE_URL="mysql://usuario:senha@localhost:3306/aerocode"
+
+# 3. Configurar o banco de dados
+cd backend
+npm run prisma:generate
+npm run prisma:migrate
+cd ..
+
+# 4. Iniciar backend e frontend simultaneamente
+npm start
+```
+
+O backend estará em `http://localhost:3001` e o frontend em `http://localhost:3000`
+
+---
+
+### Opção 2: Iniciar Backend e Frontend Separadamente
+
+#### 1. Configurar o Banco de Dados MySQL
 
 Crie um banco de dados MySQL:
 
@@ -43,7 +72,7 @@ Crie um banco de dados MySQL:
 CREATE DATABASE aerocode;
 ```
 
-### 2. Configurar o Backend
+#### 2. Configurar o Backend
 
 ```powershell
 # Navegar até a pasta do backend
@@ -68,7 +97,7 @@ npm run dev
 
 O servidor backend estará rodando em `http://localhost:3001`
 
-### 3. Configurar o Frontend
+#### 3. Configurar o Frontend
 
 Abra um **novo terminal** e execute:
 

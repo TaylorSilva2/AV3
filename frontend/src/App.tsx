@@ -12,7 +12,7 @@ import FuncionarioForm from "./components/FuncionarioForm";
 import FuncionarioList from "./components/FuncionarioList";
 
 function MainApp() {
-  const { user, logout, isAdmin, isEngenheiro, hasPermission } = useAuth();
+  const { user, logout, isAdmin, isEngenheiro } = useAuth();
   const [activeTab, setActiveTab] = useState<"aeronaves" | "funcionarios">(
     "aeronaves"
   );

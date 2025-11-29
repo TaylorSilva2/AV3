@@ -66,6 +66,7 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
 
   useEffect(() => {
     loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [aeronave.id]);
 
   const loadData = async () => {
@@ -179,26 +180,6 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
     }
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "EM_PRODUCAO":
-      case "PENDENTE":
-        return "#ffc107";
-      case "EM_TRANSPORTE":
-      case "ANDAMENTO":
-        return "#2196f3";
-      case "PRONTA":
-      case "CONCLUIDA":
-        return "#4caf50";
-      case "APROVADO":
-        return "#4caf50";
-      case "REPROVADO":
-        return "#f44336";
-      default:
-        return "#757575";
-    }
-  };
-
   const formatStatus = (status: string) => {
     return status
       .replace(/_/g, " ")
@@ -221,7 +202,14 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
 
         <div className="modal-body">
           <div className="card" style={{ marginBottom: "28px" }}>
-            <h3 style={{ color: "#1e40af", marginBottom: "16px" }}>
+            <h3
+              style={{
+                color: "#93c5fd",
+                marginBottom: "16px",
+                fontSize: "1.8em",
+                fontWeight: "700",
+              }}
+            >
               {aeronave.modelo}
             </h3>
             <div
@@ -231,18 +219,53 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
                 gap: "12px",
               }}
             >
-              <p>
-                <strong>Código:</strong> {aeronave.codigo}
+              <p
+                style={{
+                  color: "#ffffff",
+                  fontSize: "1.1em",
+                  fontWeight: "500",
+                }}
+              >
+                <strong style={{ color: "#60a5fa", fontWeight: "700" }}>
+                  Código:
+                </strong>{" "}
+                {aeronave.codigo}
               </p>
-              <p>
-                <strong>Tipo:</strong> {aeronave.tipo}
+              <p
+                style={{
+                  color: "#ffffff",
+                  fontSize: "1.1em",
+                  fontWeight: "500",
+                }}
+              >
+                <strong style={{ color: "#60a5fa", fontWeight: "700" }}>
+                  Tipo:
+                </strong>{" "}
+                {aeronave.tipo}
               </p>
-              <p>
-                <strong>Alcance:</strong>{" "}
+              <p
+                style={{
+                  color: "#ffffff",
+                  fontSize: "1.1em",
+                  fontWeight: "500",
+                }}
+              >
+                <strong style={{ color: "#60a5fa", fontWeight: "700" }}>
+                  Alcance:
+                </strong>{" "}
                 {aeronave.alcance.toLocaleString("pt-BR")} km
               </p>
-              <p>
-                <strong>Capacidade:</strong> {aeronave.capacidade} passageiros
+              <p
+                style={{
+                  color: "#ffffff",
+                  fontSize: "1.1em",
+                  fontWeight: "500",
+                }}
+              >
+                <strong style={{ color: "#60a5fa", fontWeight: "700" }}>
+                  Capacidade:
+                </strong>{" "}
+                {aeronave.capacidade} passageiros
               </p>
             </div>
           </div>
@@ -293,9 +316,10 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
                   onSubmit={handleAddPeca}
                   style={{
                     marginBottom: "20px",
-                    padding: "15px",
-                    backgroundColor: "#f9f9f9",
-                    borderRadius: "8px",
+                    padding: "20px",
+                    backgroundColor: "rgba(30, 41, 59, 0.6)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(148, 163, 184, 0.2)",
                   }}
                 >
                   <div className="form-group">
@@ -413,9 +437,10 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
                   onSubmit={handleAddEtapa}
                   style={{
                     marginBottom: "20px",
-                    padding: "15px",
-                    backgroundColor: "#f9f9f9",
-                    borderRadius: "8px",
+                    padding: "20px",
+                    backgroundColor: "rgba(30, 41, 59, 0.6)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(148, 163, 184, 0.2)",
                   }}
                 >
                   <div className="form-group">
@@ -575,9 +600,10 @@ const AeronaveDetail: React.FC<AeronaveDetailProps> = ({
                   onSubmit={handleAddTeste}
                   style={{
                     marginBottom: "20px",
-                    padding: "15px",
-                    backgroundColor: "#f9f9f9",
-                    borderRadius: "8px",
+                    padding: "20px",
+                    backgroundColor: "rgba(30, 41, 59, 0.6)",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(148, 163, 184, 0.2)",
                   }}
                 >
                   <div className="form-group">
